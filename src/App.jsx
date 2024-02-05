@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Fragment } from 'react'
+ 
+// Routing
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+ 
+/** LAyout */
+import Header from './componentes/layout/Header'
+import Nav from './componentes/layout/Nav'
+ 
+/** Componentes */
+import Clientes from './componentes/clientes/Clientes'
+import Productos from './componentes/productos/Productos'
+import Pedidos from './componentes/pedidos/Pedidos'
+import NuevoPedido from './componentes/pedidos/Nuevo-Pedido'
+import NuevoCliente from './componentes/clientes/NuevoCliente'
+import EditarCliente from './componentes/clientes/EditarCliente'
+
+import NuevoProducto from './componentes/productos/Nuevo-Producto'
+import EditarProducto from './componentes/productos/Editar-producto' 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Fragment>
+        <Header />
+        <div className='grid contenedor contenido-principal'>
+          <Nav />
+ 
+          <main className='caja-contenido col-9'>
+            <Routes>
+              <Route path='/' element={<Clientes />} />
+              <Route path='/clientes/nuevo' element={<NuevoCliente/>}/>
+              <Route path='/clientes/editar/:id' element={<EditarCliente/>}/>
+              <Route path='/productos' element={<Productos />} />
+              <Route path="/productos/nuevo" element={<NuevoProducto/>} />
+              <Route path="productos/editar/:id" element={<EditarProducto />} />
+              <Route path='/pedidos' element={<Pedidos />} />
+              <Route path='/pedidos/nuevo/:id' element={<NuevoPedido />} />
+            </Routes>
+          </main>
+        </div>
+      </Fragment>
+    </BrowserRouter>
   )
 }
-
+ 
 export default App

@@ -34,7 +34,8 @@ a {
 }
 /** GLOBALES **/
 h1{
-    font-family: var(--fontHeading);
+    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Rubik', sans-serif;
 }
 h2 {
     font-family: var(--fontTexto);
