@@ -2,14 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 import FormBuscarProducto from "./FormBuscarProducto";
+import FormCantidadProducto from "./FormCantidadProducto";
+import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 
 export default function NuevoPedido() {
   // extraer el ID del cliente
   const { id } = useParams();
 
+  let navigate = useNavigate();
+
   const [cliente, guardarCliente] = useState({});
-  const [busqueda, guardarBusqueda] = useState("");
+  const [busqueda, guardarBusqueda] = useState('');
+  const [productos, guardarProductos] = useState([]);
+  const [total, guardarTotal] = useState(0);
 
   useEffect(() => {
     const consultarApi = async () => {
@@ -17,19 +23,29 @@ export default function NuevoPedido() {
       guardarCliente(resultado.data);
     };
     consultarApi();
-  }, []);
+    // llama la funcion al haber una accion y se produce el efecto.
+    actualizarTotal()
+  }, [productos]);
 
-  const buscarProducto = async (e) => {
+  const buscarProducto = async e => {
     e.preventDefault();
 
     // obtener los productos de la busqueda
-    const resultadoBusqueda = await clienteAxios.post(
-      `productos/busqueda/${busqueda}`
-    );
+    const resultadoBusqueda = await clienteAxios.post(`/productos/busqueda/${busqueda}`);
     console.log(resultadoBusqueda);
 
     if (resultadoBusqueda.data[0]) {
-        console.log(resultadoBusqueda.data[0])
+
+      let productoResultado = resultadoBusqueda.data[0];
+      productoResultado.producto = resultadoBusqueda.data[0]._id;
+      productoResultado.cantidad = 0;
+
+        console.log(resultadoBusqueda.data[0]) //para ver que props me trae
+        console.log(productoResultado); //para ver las posiciones y valores de las props
+
+        // ponerlo en el state. Obtenemos una copia de los productos para que no se
+        // reemplacen, si busco "angular" y despues "node", que este ultimo no reemplace, sino que angular se agregue al array
+        guardarProductos([...productos, productoResultado])
     } else {
       Swal.fire({
         type: "error",
@@ -40,9 +56,81 @@ export default function NuevoPedido() {
   };
 
   // almacenar la busqueda en el state
-  const leerDatosBusqueda = (e) => {
+  const leerDatosBusqueda = e => {
     guardarBusqueda(e.target.value);
   };
+
+  // actualizar cantidad de productos
+  const restarProductos = i => {
+    const todosProductos = [...productos]
+    if(todosProductos[i].cantidad === 0) return;
+
+    todosProductos[i].cantidad--;
+
+    guardarProductos(todosProductos)
+  }
+
+  const aumentarProductos = i =>{
+    const todosProductos = [...productos]
+
+    todosProductos[i].cantidad++;
+
+    guardarProductos(todosProductos)
+
+  }
+
+  const actualizarTotal = () => {
+    if(productos.length === 0){
+      guardarTotal(0);
+      return; //para que no se siga ejecutando
+    }
+
+    // calcular en nuevo total
+    let nuevoTotal = 0;
+
+    // recorrer todos los productos cantidades y precio
+    productos.map(producto => nuevoTotal+= (producto.cantidad * producto.precio));
+    // almacenar el total
+    guardarTotal(nuevoTotal);
+
+  }
+  // eliminar producto
+  const eliminarProductoPedido = id =>{
+    const todosProducto = productos.filter(producto => producto.producto !== id);
+    guardarProductos(todosProducto);
+  }
+
+  // Almacenar el pedido:
+    const realizarPedido = async e =>{
+      e.preventDefault()
+
+      const pedido = {
+        "cliente" : id, 
+        "pedido" : productos, 
+        "total" : total
+    }
+
+    // almacenarlo en la BD
+    const resultado = await clienteAxios.post(`/pedidos/nuevo/${id}`, pedido);
+
+    // leer resultado
+    if(resultado.status === 200) {
+        // alerta de todo bien
+        Swal.fire({
+            type: 'success',
+            title: 'Pedido creado',
+            text: resultado.data.mensaje
+        })
+    } else {
+        // alerta de error
+        Swal.fire({
+            type: 'error',
+            title: 'Hubo un Error',
+            text: 'Vuelva a intentarlo'
+        })
+    }
+    navigate('/pedidos',{replace:true})
+  }
 
   return (
     <div>
@@ -61,70 +149,22 @@ export default function NuevoPedido() {
         leerDatosBusqueda={leerDatosBusqueda}
       />
       <ul className="resumen">
-        <li>
-          <div className="texto-producto">
-            <p className="nombre">Macbook Pro</p>
-            <p className="precio">$250</p>
-          </div>
-          <div className="acciones">
-            <div className="contenedor-cantidad">
-              <i className="fas fa-minus"></i>
-              <input type="text" name="cantidad" />
-              <i className="fas fa-plus"></i>
-            </div>
-            <button type="button" className="btn btn-rojo">
-              <i className="fas fa-minus-circle"></i>
-              Eliminar Producto
-            </button>
-          </div>
-        </li>
-        <li>
-          <div className="texto-producto">
-            <p className="nombre">Macbook Pro</p>
-            <p className="precio">$250</p>
-          </div>
-          <div className="acciones">
-            <div className="contenedor-cantidad">
-              <i className="fas fa-minus"></i>
-              <input type="text" name="cantidad" />
-              <i className="fas fa-plus"></i>
-            </div>
-            <button type="button" className="btn btn-rojo">
-              <i className="fas fa-minus-circle"></i>
-              Eliminar Producto
-            </button>
-          </div>
-        </li>
-        <li>
-          <div className="texto-producto">
-            <p className="nombre">Macbook Pro</p>
-            <p className="precio">$250</p>
-          </div>
-          <div className="acciones">
-            <div className="contenedor-cantidad">
-              <i className="fas fa-minus"></i>
-              <input type="text" name="cantidad" />
-              <i className="fas fa-plus"></i>
-            </div>
-            <button type="button" className="btn btn-rojo">
-              <i className="fas fa-minus-circle"></i>
-              Eliminar Producto
-            </button>
-          </div>
-        </li>
+        {productos.map((producto, index)=>( 
+          <FormCantidadProducto
+          key={producto.producto}
+          producto={producto}
+          restarProductos = {restarProductos}
+          aumentarProductos = {aumentarProductos}
+          eliminarProductoPedido = {eliminarProductoPedido}
+          index={index}
+          />
+        ))}
       </ul>
-      <div className="campo">
-        <label>Total:</label>
-        <input
-          type="number"
-          name="precio"
-          placeholder="Precio"
-          readOnly="readonly"
-        />
-      </div>
-      <div className="enviar">
-        <input type="submit" className="btn btn-azul" value="Agregar Pedido" />
-      </div>
+      <p className="total">Total a pagar: <span>${total}</span></p>
+      {total > 0 ? (<form onSubmit={realizarPedido}>
+        <input type="submit" className="btn btn-verde btn-block"
+        value="Confirmar pedido" />
+      </form>) : null }
     </div>
   );
 }

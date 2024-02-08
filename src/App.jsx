@@ -15,6 +15,8 @@ import NuevoPedido from './componentes/pedidos/Nuevo-Pedido'
 import NuevoCliente from './componentes/clientes/NuevoCliente'
 import EditarCliente from './componentes/clientes/EditarCliente'
 
+import Login from './componentes/auth/Login'
+
 import NuevoProducto from './componentes/productos/Nuevo-Producto'
 import EditarProducto from './componentes/productos/Editar-producto' 
 
@@ -36,6 +38,8 @@ function App() {
               <Route path="productos/editar/:id" element={<EditarProducto />} />
               <Route path='/pedidos' element={<Pedidos />} />
               <Route path='/pedidos/nuevo/:id' element={<NuevoPedido />} />
+              
+              <Route path='/iniciar-sesion' element={<Login />} />
             </Routes>
           </main>
         </div>

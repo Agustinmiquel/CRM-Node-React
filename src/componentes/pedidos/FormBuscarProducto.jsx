@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 // Importando las funciones en otro archivo
 
-export default function FormBuscarProducto({ buscarProducto, leerDatosBusqueda }) {
+export default function FormBuscarProducto(props) {
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        buscarProducto();
-      }
-    
-      const handleChange = (event) => {
-        leerDatosBusqueda(event.target.value);
-      }
-      //asdasdasd
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={props.buscarProducto}>
       <legend>Busca un Producto y agrega una cantidad</legend>
 
       <div className="campo">
@@ -22,7 +13,7 @@ export default function FormBuscarProducto({ buscarProducto, leerDatosBusqueda }
           type="text"
           placeholder="Nombre Productos"
           name="productos"
-          onChange={handleChange}
+          onChange={props.leerDatosBusqueda}
         />
       </div>
       <input
