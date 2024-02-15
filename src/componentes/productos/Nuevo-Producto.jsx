@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react'
+import React, {Fragment, useState,} from 'react'
 import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios'
 import { useNavigate } from 'react-router-dom';
@@ -11,8 +11,10 @@ export default function NuevoProducto() {
     nombre: '',
     precio:''
   })
-
+  
+  
   const [archivo,guardararchivo] = useState('');
+
 
   // leer los datos del formulario
   const leerinformacionProducto = e => {
@@ -67,6 +69,10 @@ export default function NuevoProducto() {
             })
         }
     }
+    // // verificar si el usuario esta autenticado o no
+    // if(!auth.auth && (localStorage.getItem('token') === auth.token)){
+    //   navigate('iniciar-sesion',{replace:true});
+    // }
 
   return (
     <Fragment>

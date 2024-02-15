@@ -4,10 +4,12 @@ const CRMContext = React.createContext([{}, () => {}]);
 
 const CRMProvider = props => {
 
+    const token = localStorage.getItem('token') || '';
+
     // definir el state inicial
     const [auth, guardarAuth]= useState({
-        token:'',
-        auth:false, //va a cambiar si el token es valido o no
+        token:token,
+        auth:token ? true : false, //va a cambiar si el token es valido o no
     });
     // rodea a todos los componentes hijos con props.children.
     return(

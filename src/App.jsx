@@ -27,30 +27,31 @@ function App() {
   // utilizando context en el componente
   const [auth, guardarAuth] = useContext(CRMContext)
 
+
   return (
     <BrowserRouter>
       <Fragment>
-        <CRMProvider value={[auth, guardarAuth]}>
         <Header />
+        <CRMProvider value={[auth, guardarAuth]}>
         <div className='grid contenedor contenido-principal'>
           <Nav />
- 
           <main className='caja-contenido col-9'>
             <Routes>
               <Route path='/' element={<Clientes />} />
-              <Route path='/clientes/nuevo' element={<NuevoCliente/>}/>
-              <Route path='/clientes/editar/:id' element={<EditarCliente/>}/>
               <Route path='/productos' element={<Productos />} />
-              <Route path="/productos/nuevo" element={<NuevoProducto/>} />
-              <Route path="productos/editar/:id" element={<EditarProducto />} />
-              <Route path='/pedidos' element={<Pedidos />} />
-              <Route path='/pedidos/nuevo/:id' element={<NuevoPedido />} />
-              
+              <Route path='/pedidos' element={<Pedidos />} />            
               <Route path='/iniciar-sesion' element={<Login />} />
+            </Routes>
+            <Routes>
+            <Route path="productos/editar/:id" element={<EditarProducto />} />
+            <Route path='/clientes/editar/:id' element={<EditarCliente/>}/>
+            <Route path='/clientes/nuevo' element={<NuevoCliente/>}/>
+            <Route path="/productos/nuevo" element={<NuevoProducto/>} />
+            <Route path='/pedidos/nuevo/:id' element={<NuevoPedido />} /> 
             </Routes>
           </main>
         </div>
-        </CRMProvider> 
+        </CRMProvider>
       </Fragment>
     </BrowserRouter>
   )

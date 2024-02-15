@@ -32,7 +32,7 @@ export default function EditarCliente() {
     // UseEffect cuando el componente carga
     useEffect(()=> {
         consultarApi();
-    }, [id]);
+    }, []);
 
   const actualizarState = e =>{
     // almacenamos lo que el usuario escribe
@@ -58,7 +58,7 @@ export default function EditarCliente() {
     e.preventDefault();
 
     // enviar petición por axios
-    clienteAxios.put(`/clientes/${cliente._id}`, cliente) 
+    clienteAxios.put(`/clientes/editar/${cliente._id}`, cliente) 
         .then(res => {
             // validar si hay errores de mongo 
             if(res.data.code === 11000) {

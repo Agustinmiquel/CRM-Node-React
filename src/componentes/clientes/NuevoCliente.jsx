@@ -1,9 +1,12 @@
-import React, {Fragment, useState} from 'react'
+import React, {Fragment, useState,} from 'react'
 import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
+
+
 export default function NuevoCliente() {
+
 
   let navigate = useNavigate();
 
@@ -60,6 +63,7 @@ export default function NuevoCliente() {
     let valido = !nombre.length ||  !apellido.length || !email.length||!empresa.length||!telefono.length ;
     return valido;
   }
+
 
   return (
     <Fragment>
