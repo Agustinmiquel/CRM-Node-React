@@ -106,7 +106,7 @@ export default function Editarproducto() {
                 <div className="campo">
                     <label>Imagen:</label>
                     { producto.imagen ? (
-                        <img src={`http://localhost:5000/${producto.imagen}`} alt="imagen" width="300" />
+                        <img src={`import.meta.VITE_REACT_APP_BACKEND_URL/${producto.imagen}`} alt="imagen" width="300" />
                     ) : null }
                     <input type="file"  name="imagen" onChange={leerArchivo} defaultValue={imagen}/>
                 </div>
