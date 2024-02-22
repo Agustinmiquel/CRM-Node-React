@@ -1,6 +1,6 @@
 import axios from 'axios';
 const clientesAxios = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: import.meta.env.VITE_REACT_APP_BACKEND_URL
 })
 
 export default clientesAxios;
