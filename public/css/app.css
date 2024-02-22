@@ -66,6 +66,19 @@ h2 {
     flex: 0 0 100%;
     width: 100%;
 }
+
+.btn-input {
+    padding:  1.5rem;
+    text-align: center;
+    color: white;
+    font-weight: 200;
+    display: block;
+    font-family: var(--fontTexto);
+    border: none;
+    flex: 0 0 100%;
+    width: 100%;
+}
+
 .btn:hover {
     cursor: pointer;
 }
@@ -270,6 +283,7 @@ h2 {
         margin-bottom: 0;
     } 
 }
+
 .cliente p,
 .producto p,
 .pedido p {

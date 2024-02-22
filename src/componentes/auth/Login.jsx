@@ -66,12 +66,12 @@ export default function Login(props) {
             <form onSubmit={iniciarSesion}>
                 <div className="campo">
                     <label>Email: </label>
-                    <input type="text" name='email' placeholder='Tu correo' onChange={leerDatos} />
+                    <input type="text" className='btn-input' name='email' placeholder='Tu correo' onChange={leerDatos} />
                 </div>
 
                 <div className="campo">
                     <label>Password: </label>
-                    <input type="password" name='password' placeholder='Tu contraseña' onChange={leerDatos} />
+                    <input type="password" name='password' className='btn-input' placeholder='Tu contraseña' onChange={leerDatos} />
                 </div>
                 <input type="submit" value='Iniciar sesión' className='btn btn-verde btn-block' />
             </form>
