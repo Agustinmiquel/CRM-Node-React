@@ -31,8 +31,8 @@ function App() {
   return (
     <BrowserRouter>
       <Fragment>
-        <Header />
         <CRMProvider value={[auth, guardarAuth]}>
+        <Header />
         <div className='grid contenedor contenido-principal'>
           <Nav />
           <main className='caja-contenido col-9'>
