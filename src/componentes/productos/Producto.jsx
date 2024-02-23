@@ -43,9 +43,7 @@ export default function Producto({producto}) {
         <div className="info-producto">
             <p className="nombre">{nombre}</p>
             <p className="precio">$ {precio}</p>
-            { imagen ? (
-                <img src={`${import.meta.VITE_REACT_APP_BACKEND_URL}/${imagen}`} alt="imagen" />
-            ) : null  }
+            {imagen ? <img src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${imagen}`} alt="imagen" /> : null}
         </div>
         <div className="acciones">
             <Link to={`/productos/editar/${_id}`} className="btn btn-azul">
